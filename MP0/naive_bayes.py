@@ -72,13 +72,13 @@ def naive_bayes(
         for word, count in doc_counter.items():
             word_counts[label][word] += count
 
-    # Calculating the priors
+    # Calculate the priors
     priors = {
         label: math.log(label_counts[label] / sum(label_counts.values()))
         for label in tqdm(sorted(label_counts), disable=silently)
     }
 
-    # Calculating the likelihoods
+    # Calculate the likelihoods
     vocabulary = len(set([word for doc in train_data for word in doc]))
 
     likelihoods = defaultdict(lambda: defaultdict(float))
@@ -89,7 +89,7 @@ def naive_bayes(
                 / (sum(word_counts[label].values()) + laplace * vocabulary)
             )
 
-    # Use the pro_prior for development
+    # Use the pos_prior for development
     priors = {0: math.log(1 - pos_prior), 1: math.log(pos_prior)}
 
     yhats = []
